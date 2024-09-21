@@ -5,6 +5,11 @@ import threading
 
 app = Flask(__name__)
 
+
+@app.route('/')
+def index1():
+    return "services are up",200
+
 def get_dbdata(device_id):
     try:
         query = queries.getactivejobs.format(device_id)
@@ -20,6 +25,8 @@ def get_dbdata(device_id):
 def check_for_notifi():
     check_failed_interval.send_failurenotify_mail()
     return jsonify({"status":True}),200
+
+
 
 @app.route('/run_active_interval')
 def index():
