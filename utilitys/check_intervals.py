@@ -1,14 +1,15 @@
 import pytz
 from utilitys import apis_call,datetime_info
-from Dal import db_utilitys
+from Dal import db_utilitys,queries
 from datetime import datetime
 from utilitys.datetime_info import get_timedelta
 from datetime import time
 
 def callApi_update_time(api_url,schedule_id,current_time):
     res = apis_call.call_api(api_url)
-    print(res)
-    db_utilitys.update_last_called(schedule_id, current_time, res['data'], res['status_code'], res['status'])
+    time_without_milliseconds = current_time.replace(microsecond=0)
+    qr = queries.insert_APILogs_query.format(time_without_milliseconds, schedule_id,res['data'],res['status_code'],int(res['status']))
+    db_utilitys.update_record_db(qr)
     return res
 
 
@@ -44,8 +45,6 @@ def find_interval(schedule):
         compare_dates = datetime_info.compare_dates(start_datetime, current_datetime)
 
         if interval_type == 'minute' or interval_type == 'hourly':
-            print(start_time <= current_time <= end_time,start_time , current_time, end_time)
-
             if is_within_time_range(start_time, end_time, current_time):
                 if last_called == None:
                     callApi_update_time(api_url, schedule_id, current_datetime)

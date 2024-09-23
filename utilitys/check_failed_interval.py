@@ -14,9 +14,10 @@ def send_failurenotify_mail():
 
             data = {
                 "superid": 41112,
-                "toaddr": "pavan@perennialcode.in",
+                "toaddr": "info@perennialcode.in",
                 "message": event_data,
-                "subject": f"API triggers Failure  more than {str(i['lastcalled'])} time."
+                "subject": f"API triggers Failure  more than {str(i['lastcalled'])} time.",
+                "cc": "support@perennialcode.in"
             }
             apis_call.post_api(url, data)
             break

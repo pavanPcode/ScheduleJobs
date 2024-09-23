@@ -43,6 +43,8 @@ def get_data_from_db(query):
         # Close the connection
         cursor.close()
         conn.close()
+        if len(rows) == 0 or rows == []:
+            return {'data': result, "status": False, 'error': 'no data available'}
 
         return {'data':result,"status":True,'error':[]}
 
@@ -55,19 +57,14 @@ def get_data_from_db(query):
 # data = get_data_from_db()
 # print(data)
 
-def update_last_called(schedule_id, currenttime,apiresp,StatusCode,status):
+def update_record_db(query):
     try:
-        print(schedule_id, currenttime,apiresp,StatusCode,status,'ldak')
         # Define the connection string (replace with your database details)
         conn = pyodbc.connect(**db_config)
         cursor = conn.cursor()
 
-        # # Execute the update query
-        # query = "UPDATE [dbo].[Jobs1] SET lastcalled = ? WHERE id = ?"
-        # cursor.execute(query, (currenttime, schedule_id))
-        # Execute the update query
-        query = "INSERT INTO [dbo].[APILogs] ([LastCalled],[JobsId],[ApiResponce],StatusCode,status) VALUES (?,?,?,?,?);"
-        cursor.execute(query, (currenttime, schedule_id,str(apiresp),StatusCode,status))
+        #cursor.execute(query, (currenttime, schedule_id,str(apiresp),StatusCode,status))
+        cursor.execute(query)
 
         # Commit the transaction
         conn.commit()
@@ -75,8 +72,7 @@ def update_last_called(schedule_id, currenttime,apiresp,StatusCode,status):
         # Close the connection
         cursor.close()
         conn.close()
-        print(f"Successfully updated last_called for schedule id {schedule_id}")
-        return {'data': f"Successfully updated last_called for schedule id {schedule_id}", "status": True, 'error': []}
+
+        return {'data': f"Successfully updated", "status": True, 'error': []}
     except pyodbc.Error as e:
-        print(f"Error updating last_called: {e}")
         return {'data': [], "status": False, 'error': str(e)}
