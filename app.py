@@ -57,7 +57,6 @@ def add_job():
     # Get the data from the POST request
     data = request.get_json()
     try:
-        # Required fields
         superid = data.get('SuperId')
         interval = data.get('Interval')
         failedattempts = data.get('FailedAttemptstoNotify')
