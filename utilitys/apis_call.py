@@ -1,29 +1,25 @@
 import requests
-
 def call_api(url):
     try:
         response = requests.get(url)
         response.raise_for_status()  # Raise an exception for 4xx and 5xx status codes
-        print(f"API called: {url}, Status code: {response.status_code}")
+        #print(f"API called: {url}, Status code: {response.status_code}")
         statuscode =response.status_code
+        a = response.text  # Assuming response.text contains your text
+        respo_data = str(a[:25])  # Get the first 25 characters
         # Check if the request was successful (status code 200-299)
-        if response.status_code >= 200 and response.status_code < 300:
-            return {'status': True, "status_code": str(response.status_code), "data": ""}
+        if statuscode >= 200 and statuscode < 300:
+            return {'status': True, "status_code": str(statuscode), "data": respo_data}
         else:
-            return {'status': False, "status_code": str(response.status_code), "data": ""}
+            return {'status': False, "status_code": str(statuscode), "data": respo_data}
     except requests.exceptions.HTTPError as http_err:
         # This block will capture HTTP-related errors (4xx, 5xx)
-        print(f"HTTP error occurred: {http_err}")
+        #print(f"HTTP error occurred: {http_err}")
         return {'status': False, "status_code": str(http_err.response.status_code), "data": str(http_err)}
     except requests.exceptions.RequestException as e:
         # This block will capture other exceptions (network errors, timeouts, etc.)
-        print(f"Error calling API: {e}")
+        #print(f"Error calling API: {e}")
         return {'status': False, "status_code": 404, "data": str(e)}
-
-
-import requests
-import json
-
 
 def post_api(url, data):
     try:
@@ -35,15 +31,15 @@ def post_api(url, data):
 
         # Check if the request was successful (status code 200-299)
         if response.status_code >= 200 and response.status_code < 300:
-            print("Request was successful:", response.json())
+            #print("Request was successful:", response.json())
             return {'status': True, "status_code": str(response.status_code), "data": []}
         else:
-            print(f"Failed with status code {response.status_code}: {response.text}")
+            #print(f"Failed with status code {response.status_code}: {response.text}")
             return {'status': False, "status_code": str(response.status_code), "data": []}
 
     except requests.exceptions.RequestException as e:
-        print(f"An error occurred: {e}")
-        return {'status': False, "status_code": str(response.status_code), "data": str(e)}
+        #print(f"An error occurred: {e}")
+        return {'status': False, "status_code": str(404), "data": str(e)}
 
 
 # # Example usage
