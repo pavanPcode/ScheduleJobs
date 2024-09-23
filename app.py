@@ -52,7 +52,7 @@ def index():
 
 
 
-@app.route('/addJob', methods=['POST'])
+@app.route('/addScheduleJob', methods=['POST'])
 def add_job():
     # Get the data from the POST request
     data = request.get_json()
