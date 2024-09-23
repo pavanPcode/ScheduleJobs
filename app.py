@@ -63,7 +63,7 @@ def add_job():
         deviceid = data.get('DeviceId')
         notify = data.get('Notify')
 
-        # Convert notify to integer and validate
+        # Convert notify to integer and validate g
         if notify in [0, 1]:
             notify = int(notify)  # Ensure it's either 0 or 1
         else:
