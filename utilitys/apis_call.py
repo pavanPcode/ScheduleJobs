@@ -8,9 +8,9 @@ def call_api(url):
         statuscode =response.status_code
         # Check if the request was successful (status code 200-299)
         if response.status_code >= 200 and response.status_code < 300:
-            return {'status': True, "status_code": str(response.status_code), "data": str(response.json())}
+            return {'status': True, "status_code": str(response.status_code), "data": ""}
         else:
-            return {'status': False, "status_code": str(response.status_code), "data": str(response.json())}
+            return {'status': False, "status_code": str(response.status_code), "data": ""}
     except requests.exceptions.HTTPError as http_err:
         # This block will capture HTTP-related errors (4xx, 5xx)
         print(f"HTTP error occurred: {http_err}")
@@ -18,7 +18,7 @@ def call_api(url):
     except requests.exceptions.RequestException as e:
         # This block will capture other exceptions (network errors, timeouts, etc.)
         print(f"Error calling API: {e}")
-        return {'status': False, "status_code": "N/A", "data": str(e)}
+        return {'status': False, "status_code": 404, "data": str(e)}
 
 
 import requests

@@ -45,6 +45,7 @@ def find_interval(schedule):
         compare_dates = datetime_info.compare_dates(start_datetime, current_datetime)
 
         if interval_type == 'minute' or interval_type == 'hourly':
+            print(start_time, end_time, current_time,last_called)
             if is_within_time_range(start_time, end_time, current_time):
                 if last_called == None:
                     callApi_update_time(api_url, schedule_id, current_datetime)
